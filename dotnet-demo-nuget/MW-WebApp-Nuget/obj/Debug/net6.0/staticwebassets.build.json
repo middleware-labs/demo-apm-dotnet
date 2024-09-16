@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "J0puDCK+d+/0E+a9ToY0qJvFGQhOllfYEh2UjoGiKF8=",
+  "Source": "MW-WebApp-Nuget",
+  "BasePath": "_content/MW-WebApp-Nuget",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

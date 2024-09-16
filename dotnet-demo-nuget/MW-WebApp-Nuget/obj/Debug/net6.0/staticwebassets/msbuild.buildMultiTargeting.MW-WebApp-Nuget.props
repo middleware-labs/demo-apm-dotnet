@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\MW-WebApp-Nuget.props" />
+</Project>
