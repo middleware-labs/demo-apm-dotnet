@@ -10,33 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGrpc();
 
-builder.Configuration.AddEnvironmentVariables();
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables()
+    .Build();
 
-var mwApiKey = Environment.GetEnvironmentVariable("MW_API_KEY") ?? builder.Configuration.GetSection("MW")["ApiKey"];
-var runtimeMetricsStr = Environment.GetEnvironmentVariable("RUN_METRICS_DOTNET") ?? builder.Configuration.GetSection("MW")["RunTime_DotNet_Metrics"];
-var projectName = Environment.GetEnvironmentVariable("PROJECT_NAME")
-?? builder.Configuration.GetSection("MW")["Project_Name"];
-var serviceName = Environment.GetEnvironmentVariable("SERVICE_NAME") ?? builder.Configuration.GetSection("MW")["Service_Name"];
-var target = Environment.GetEnvironmentVariable("MW_TARGET") ?? builder.Configuration.GetSection("MW")["Target_URL"];
-var consoleExporterStr = Environment.GetEnvironmentVariable("MW_CONSOLE_EXPORTER") ?? builder.Configuration.GetSection("MW")["Console_Exporter"];
-var excludeLinksEnv = Environment.GetEnvironmentVariable("MW_EXCLUDE_LINKS");
+builder.Services.ConfigureMWInstrumentation(configuration);
 
-string[]? excludeLinks = !string.IsNullOrEmpty(excludeLinksEnv)
-? JsonSerializer.Deserialize<string[]>(excludeLinksEnv) : builder.Configuration.GetSection("MW:Exclude_Links").Get<string[]>();
-
-
-var attributes = new Dictionary<string, object>
-{
-    { "mw.account_key", mwApiKey ?? string.Empty },
-    { "runtime.metrics.dotnet", Convert.ToBoolean(runtimeMetricsStr)},
-    { "project.name", projectName ?? string.Empty },
-    { "service.name", serviceName ?? string.Empty },
-    { "target", target ?? string.Empty },
-    { "console.exporter", Convert.ToBoolean(consoleExporterStr)},
-    { "exclude.links", excludeLinks ?? Array.Empty<string>() }
-};
-
-builder.Services.ConfigureMWInstrumentation(attributes);
+builder.Logging.ClearProviders(); // Remove all providers
+builder.Logging.AddConsole(); // Add console logging
+builder.Logging.SetMinimumLevel(LogLevel.Debug); // Set minimum log level
 
 // Add services to the container.
 
@@ -46,6 +30,7 @@ builder.Services.AddTransient<IPersonsRepository, PersonsRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 builder.WebHost.ConfigureKestrel(options =>
 {
@@ -59,7 +44,7 @@ builder.WebHost.ConfigureKestrel(options =>
             listenOptions.UseHttps();
         });
     }
-    
+
     options.ListenAnyIP(5192, listenOptions =>
     {
         listenOptions.Protocols = HttpProtocols.Http1AndHttp2;

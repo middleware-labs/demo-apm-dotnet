@@ -6,12 +6,15 @@ services:
     environment:
       - DOTNET_RUNNING_IN_CONTAINER=true
       - MW_API_KEY=evaddjfmazsdz8qip2cxva99muxv30wq6g6c
-      - RUN_METRICS_DOTNET=false
+      - RUN_METRICS_DOTNET=true
       - PROJECT_NAME=DEMO-APM
       - SERVICE_NAME=MW-Docker-Nuget
       - MW_TARGET=https://plo4e.middleware.io:443
       - MW_CONSOLE_EXPORTER=true
       - MW_EXCLUDE_LINKS=[]
+      - MW_APM_COLLECT_METRICS=true
+      - MW_APM_COLLECT_TRACES=true
+      - MW_APM_COLLECT_LOGS=true
       - SQL_SERVER_CONNECTION_STRING=Server=mssql,1433;Database=localdb;User Id=sa;Password=Admin@123;Persist Security Info=False;Timeout=300;MultipleActiveResultSets=true;Application Name=dotnet-demo-mssql;TrustServerCertificate=True;
       - ASPNETCORE_URLS=http://+:5192;http://+:5001
     # network_mode: host

@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\MW-WebApp-Nuget.props" />
-</Project>

@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\weather.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Google.Protobuf" Version="3.28.1" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.65.0" />
