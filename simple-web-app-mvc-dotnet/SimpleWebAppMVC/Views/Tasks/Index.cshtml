@@ -1,0 +1,43 @@
+﻿@model IEnumerable<TaskDbModel>
+
+@{
+    ViewData["title"] = "Tasks";
+}
+
+<h2>@ViewData["title"]</h2>
+
+<div class="jumbotron">
+    <p><a asp-action="Create">Create New</a></p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.ActionLink(Html.DisplayNameFor(m => m.Title),       "Index", new { sort = ViewBag.TitleSort })</th>
+                <th>@Html.ActionLink(Html.DisplayNameFor(m => m.Description), "Index", new { sort = ViewBag.DescriptionSort })</th>
+                <th>@Html.ActionLink(Html.DisplayNameFor(m => m.Date),        "Index", new { sort = ViewBag.DateSort })</th>
+                <th>@Html.ActionLink(Html.DisplayNameFor(m => m.Status),      "Index", new { sort = ViewBag.StatusSort })</th>
+                <th>@Html.ActionLink(Html.DisplayNameFor(m => m.CreatedBy),   "Index", new { sort = ViewBag.CreatedBySort })</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var m in Model) {
+            <tr>
+                <td>@Html.DisplayFor(models => m.Title)</td>
+                <td>@Html.DisplayFor(models => m.Description)</td>
+                <td>@Html.DisplayFor(models => m.Date)</td>
+                <td>@Html.DisplayFor(models => m.Status)</td>
+                <td>@Html.DisplayFor(models => m.CreatedBy)</td>
+                <td>
+                    <a asp-action="Edit"    asp-route-id="@m.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@m.Id">Details</a> |
+                    <a asp-action="Delete"  asp-route-id="@m.Id">Delete</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>@Html.ActionLink("Download JSON", "GetJSON", new { sort = ViewBag.Sort }, new { target = "_blank" })</div>
+</div>

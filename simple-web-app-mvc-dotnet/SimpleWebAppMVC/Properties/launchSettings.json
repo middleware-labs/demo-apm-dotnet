@@ -1,0 +1,63 @@
+{
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "CORECLR_ENABLE_PROFILING": "1",
+        "CORECLR_PROFILER": "{918728DD-259F-4A6A-AC2B-B85E1B658318}",
+        "CORECLR_PROFILER_PATH": "C:\\Program Files\\OpenTelemetry .NET AutoInstrumentation\\win-x64\\OpenTelemetry.AutoInstrumentation.Native.dll",
+        "CORECLR_PROFILER_PATH_64": "C:\\Program Files\\OpenTelemetry .NET AutoInstrumentation\\win-x64\\OpenTelemetry.AutoInstrumentation.Native.dll",
+        "OTEL_SERVICE_NAME": "MyMvcIisService",
+        "OTEL_EXPORTER_OTLP_ENDPOINT": "https://sandbox.middleware.io:443",
+        "OTEL_EXPORTER_OTLP_PROTOCOL": "grpc",
+        "OTEL_TRACES_EXPORTER": "otlp,console",
+        "OTEL_METRICS_EXPORTER": "otlp",
+        "OTEL_LOGS_EXPORTER": "otlp",
+        "OTEL_DOTNET_AUTO_TRACES_ENABLED": "true",
+        "OTEL_DOTNET_AUTO_METRICS_ENABLED": "true",
+        "OTEL_DOTNET_AUTO_LOGS_ENABLED": "true",
+        "OTEL_DOTNET_AUTO_LOG_LEVEL": "debug",
+        "OTEL_RESOURCE_ATTRIBUTES": "mw.account_key=5xrocjh0p5ir233mvi34dvl5bepnyqri3rqb",
+        "OTEL_LOG_LEVEL": "debug",
+        "OTEL_TRACES_SAMPLER": "always_on",
+        "OTEL_DOTNET_AUTO_LOG_DIRECTORY": "C:\\otel-logs"
+      },
+      "applicationUrl": "http://localhost:57999/"
+    },
+    "SimpleWebAppMVC": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "CORECLR_ENABLE_PROFILING": "1",
+        "CORECLR_PROFILER": "{918728DD-259F-4A6A-AC2B-B85E1B658318}",
+        "CORECLR_PROFILER_PATH": "C:\\Program Files\\OpenTelemetry .NET AutoInstrumentation\\win-x64\\OpenTelemetry.AutoInstrumentation.Native.dll",
+        "OTEL_SERVICE_NAME": "MyMvcIisService",
+        "OTEL_EXPORTER_OTLP_ENDPOINT": "https://sandbox.middleware.io:443",
+        "OTEL_EXPORTER_OTLP_PROTOCOL": "http/protobuf",
+        "OTEL_TRACES_EXPORTER": "otlp,console",
+        "OTEL_METRICS_EXPORTER": "otlp",
+        "OTEL_LOGS_EXPORTER": "otlp",
+        "OTEL_DOTNET_AUTO_TRACES_ENABLED": "true",
+        "OTEL_DOTNET_AUTO_METRICS_ENABLED": "true",
+        "OTEL_DOTNET_AUTO_LOGS_ENABLED": "true",
+        "OTEL_DOTNET_AUTO_LOG_LEVEL": "debug",
+        "OTEL_RESOURCE_ATTRIBUTES": "mw.account_key=5xrocjh0p5ir233mvi34dvl5bepnyqri3rqb",
+        "OTEL_LOG_LEVEL": "debug",
+        "OTEL_TRACES_SAMPLER": "always_on",
+        "OTEL_DOTNET_AUTO_LOG_PATH": "C:\\Users\\Administrator\\simple-web-app-mvc-dotnet\\otel.log"
+      },
+      "applicationUrl": "http://localhost:57969/"
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:57968/",
+      "sslPort": 0
+    }
+  }
+}
