@@ -1,25 +1,22 @@
 ﻿
 ## OpenTelemetry IIS Express Instrumentation
 
-### PowerShell Installation Steps
+
+
+### PowerShell Installation Steps (Auto-detect .NET Version)
 
 ```powershell
-# 1. Create base directory (for module only)
 $otelBasePath = "C:\otel-dotnet-auto"
 New-Item -ItemType Directory -Force -Path $otelBasePath | Out-Null
 
-# 2. Download the OpenTelemetry module
 $moduleUrl = "https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation/releases/latest/download/OpenTelemetry.DotNet.Auto.psm1"
 $modulePath = Join-Path $otelBasePath "OpenTelemetry.DotNet.Auto.psm1"
 Invoke-WebRequest -Uri $moduleUrl -OutFile $modulePath -UseBasicParsing
 
-# 3. Import the module
 Import-Module $modulePath -Force
 
-# 4. Install OpenTelemetry Core (ONLINE - DEFAULT PATH)
 Install-OpenTelemetryCore
 
-# 5. Set SYSTEM-WIDE ENV VARIABLES
 [Environment]::SetEnvironmentVariable("OTEL_SERVICE_NAME", "MyMvcIisService", "Machine")
 [Environment]::SetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:9320", "Machine")
 [Environment]::SetEnvironmentVariable("OTEL_EXPORTER_OTLP_PROTOCOL", "http/protobuf", "Machine")
@@ -30,7 +27,30 @@ Install-OpenTelemetryCore
 [Environment]::SetEnvironmentVariable("OTEL_DOTNET_AUTO_METRICS_ENABLED", "true", "Machine")
 [Environment]::SetEnvironmentVariable("OTEL_DOTNET_AUTO_LOGS_ENABLED", "true", "Machine")
 
-# 6. Register IIS Express profiler
+$profilerGuid = "{918728DD-259F-4A6A-AC2B-B85E1B658318}"
+$profilerPath = "C:\Program Files\OpenTelemetry .NET AutoInstrumentation\win-x64\OpenTelemetry.AutoInstrumentation.Native.dll"
+
+$isNetCore = $false
+try {
+    $dotnetVersion = & dotnet --version 2>$null
+    if ($dotnetVersion) {
+        $isNetCore = $true
+    }
+} catch {}
+
+if ($isNetCore) {
+    [Environment]::SetEnvironmentVariable("CORECLR_ENABLE_PROFILING", "1", "Machine")
+    [Environment]::SetEnvironmentVariable("CORECLR_PROFILER", $profilerGuid, "Machine")
+    [Environment]::SetEnvironmentVariable("CORECLR_PROFILER_PATH", $profilerPath, "Machine")
+    [Environment]::SetEnvironmentVariable("CORECLR_PROFILER_PATH_64", $profilerPath, "Machine")
+    Write-Host "Set CORECLR_* variables for .NET Core/.NET."
+} else {
+    [Environment]::SetEnvironmentVariable("COR_ENABLE_PROFILING", "1", "Machine")
+    [Environment]::SetEnvironmentVariable("COR_PROFILER", $profilerGuid, "Machine")
+    [Environment]::SetEnvironmentVariable("COR_PROFILER_PATH", $profilerPath, "Machine")
+    Write-Host "Set COR_* variables for .NET Framework."
+}
+
 Register-OpenTelemetryForIIS
 ```
 
