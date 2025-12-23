@@ -5,14 +5,14 @@ namespace SimpleWebAppMVC.Validation
 {
     public class ValidateStatusCodesAttribute : ValidationAttribute
     {
-        public static readonly string[] ValidStatusCodes = [
+        public static readonly string[] ValidStatusCodes = new string[] {
             "N/A",
             "Not Started",
             "Started",
             "In Progress",
             "Almost Done",
             "Completed"
-        ];
+        };
 
         protected override ValidationResult IsValid(object value, ValidationContext context)
         {

@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimpleWebAppMVC.Data;
 
-#nullable disable
-
 namespace SimpleWebAppMVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
