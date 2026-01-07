@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  demoapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+      - "8443:443"
+    # command: dotnet DemoApi.dll
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - OTEL_EXPORTER_OTLP_ENDPOINT=https://123.middleware.io:443
+      - OTEL_EXPORTER_OTLP_HEADERS=mw.account_key=12345
+      - OTEL_LOG_LEVEL=DEBUG
+      - OTEL_SERVICE_NAME=DemoApiService
