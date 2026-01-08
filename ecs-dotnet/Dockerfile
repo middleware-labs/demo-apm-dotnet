@@ -18,7 +18,6 @@ RUN dotnet publish "DemoApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:U
 
 FROM base AS final
 WORKDIR /app
-
 COPY --from=publish /app/publish .
 
 # Install dependencies
@@ -31,15 +30,7 @@ RUN OTEL_DOTNET_AUTO_HOME="/otel-dotnet-auto" && \
     OTEL_DOTNET_AUTO_HOME="/otel-dotnet-auto" sh otel-dotnet-auto-install.sh && \
     rm otel-dotnet-auto-install.sh
 
-# Set OpenTelemetry environment variables
-ENV OTEL_DOTNET_AUTO_HOME="/otel-dotnet-auto"
-ENV OTEL_SERVICE_NAME="test-dotnet-ecs-service"
-ENV OTEL_TRACES_EXPORTER="otlp"
-ENV OTEL_METRICS_EXPORTER="none"
-ENV OTEL_LOGS_EXPORTER="none"
-ENV OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
-ENV OTEL_EXPORTER_OTLP_ENDPOINT="https://123.middleware.io:443"
-ENV OTEL_EXPORTER_OTLP_HEADERS="authorization=12345"
-ENV OTEL_RESOURCE_ATTRIBUTES="deployment.environment=staging,service.version=1.0.0"
+# Create logs directory
+RUN mkdir -p /app/logs
 
 ENTRYPOINT ["/bin/sh", "-c", ". /otel-dotnet-auto/instrument.sh && exec dotnet DemoApi.dll"]
